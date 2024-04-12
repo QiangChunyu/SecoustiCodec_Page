@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+
+<meta name="generator" content="Jekyll v3.9.0" />
+
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="https://github.com/QiangChunyu/UGM_DEMO" />
+<meta property="og:url" content="https://github.com/QiangChunyu/UGM_DEMO" />
+<meta property="og:site_name" content="CPSP" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content=" CPSP: Learning Speech Concepts From Phoneme Supervision" />
+<script type="application/ld+json">
+{"url":"https://github.com/QiangChunyu/UGM_DEMO","@type":"WebSite","headline":" CPSP: Learning Speech Concepts From Phoneme Supervision","name":"KConverter","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preload" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" as="style" type="text/css" crossorigin>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/KConverter/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+  </head>
+  <body>
+    <!-- <a id="skip-to-content" href="#content">Skip to the content.</a> -->
+
+    <!-- <header class="page-header" role="banner">
+      <h1 class="project-name"></h1>
+      <h2 class="project-tagline"></h2>
+      
+        <a href="https://github.com/QiangChunyu/UGM_DEMO" class="btn">View on GitHub</a>
+      
+      
+    </header> -->
+
+    <main id="content" class="main-content" role="main">
+      <h1 id="CPSP"><center>  CPSP: Learning Speech Concepts From Phoneme Supervision</center></h1>
+<center>Chunyu Qiang, Hao Li, Yixin Tian, Ruibo Fu, Tao Wang, Longbiao Wang, Jianwu Dang</center>
+<p><br /></p>
+<center>Tianjin University, Tianjin, China</center>
+<center>Kuaishou Technology Co., Ltd, Beijing, China</center>
+<center>Institute of Automation, Chinese Academy of Sciences, Beijing, China </center>
+<p><br /></p>
+
+
+<p><br /></p>
+
+<h2 id="model-architecture">Model Architecture</h2>
+<table border="0" align="center">
+  <tbody>
+    <tr>
+      <td><img src="./mdoel.png" width="1500" alt="Overall Architecture" /></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br /></p>
+
+<h2 id="comparison-with-baseline-systems">Use for TTS</h2>
+<p><strong>Speaker 1</strong></p>
+<table align="center">
+  <thead>
+    <tr>
+      <th>Prompt</th>
+      <th>Synthesized Speech</th>
+    </tr>
+  </thead>
+  <tbody>
+   <tr>
+      <td><audio controls="" preload="auto"><source src="wav/tts/ks30.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/ks30/1_text.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/ks30/2_text.wav" /></audio></td>
+    </tr>
+
+    <tr>
+      <td><audio controls="" preload="auto"><source src="wav/tts/ks30.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/ks30/3_text.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/ks30/4_text.wav" /></audio></td>
+    </tr>
+
+    <tr>
+      <td><audio controls="" preload="auto"><source src="wav/tts/ks30.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/ks30/5_text.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/ks30/6_text.wav" /></audio></td>
+    </tr>
+
+  </tbody>
+</table>
+<hr />
+
+<p><strong>Speaker 2</strong></p>
+<table align="center">
+  <thead>
+    <tr>
+      <th>Prompt</th>
+      <th>Synthesized Speech</th>
+    </tr>
+  </thead>
+  <tbody>
+   <tr>
+      <td><audio controls="" preload="auto"><source src="wav/tts/aixia.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/aixia/11_text.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/aixia/12_text.wav" /></audio></td>
+    </tr>
+
+    <tr>
+      <td><audio controls="" preload="auto"><source src="wav/tts/aixia.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/aixia/13_text.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/aixia/14_text.wav" /></audio></td>
+    </tr>
+
+    <tr>
+      <td><audio controls="" preload="auto"><source src="wav/tts/aixia.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/aixia/15_text.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/aixia/16_text.wav" /></audio></td>
+    </tr>
+
+  </tbody>
+</table>
+<hr />
+
+
+
+<p><strong>Speaker 3</strong></p>
+<table align="center">
+  <thead>
+    <tr>
+      <th>Prompt</th>
+      <th>Synthesized Speech</th>
+    </tr>
+  </thead>
+  <tbody>
+   <tr>
+      <td><audio controls="" preload="auto"><source src="wav/tts/f_singer.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/f_singer/41_text.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/f_singer/43_text.wav" /></audio></td>
+    </tr>
+
+    <tr>
+      <td><audio controls="" preload="auto"><source src="wav/tts/f_singer.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/f_singer/46_text.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/f_singer/47_text.wav" /></audio></td>
+    </tr>
+
+    <tr>
+      <td><audio controls="" preload="auto"><source src="wav/tts/f_singer.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/f_singer/49_text.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/f_singer/50_text.wav" /></audio></td>
+    </tr>
+
+  </tbody>
+</table>
+<hr />
+
+<p><strong>Speaker 4</strong></p>
+<table align="center">
+  <thead>
+    <tr>
+      <th>Prompt</th>
+      <th>Synthesized Speech</th>
+    </tr>
+  </thead>
+  <tbody>
+   <tr>
+      <td><audio controls="" preload="auto"><source src="wav/tts/f_sichuan.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/sichuan/52_text.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/sichuan/53_text.wav" /></audio></td>
+    </tr>
+
+    <tr>
+      <td><audio controls="" preload="auto"><source src="wav/tts/f_sichuan.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/sichuan/54_text.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/sichuan/55_text.wav" /></audio></td>
+    </tr>
+
+    <tr>
+      <td><audio controls="" preload="auto"><source src="wav/tts/f_sichuan.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/sichuan/56_text.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/sichuan/57_text.wav" /></audio></td>
+    </tr>
+
+  </tbody>
+</table>
+<hr />
+
+<p><strong>Speaker 5</strong></p>
+<table align="center">
+  <thead>
+    <tr>
+      <th>Prompt</th>
+      <th>Synthesized Speech</th>
+    </tr>
+  </thead>
+  <tbody>
+   <tr>
+      <td><audio controls="" preload="auto"><source src="wav/tts/f_biaobei.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/biaobei/33_text.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/biaobei/34_text.wav" /></audio></td>
+    </tr>
+
+    <tr>
+      <td><audio controls="" preload="auto"><source src="wav/tts/f_biaobei.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/biaobei/35_text.wav" /></audio></td>
+      <td><audio controls="" preload="auto"><source src="wav/tts/biaobei/38_text.wav" /></audio></td>
+    </tr>
+  </tbody>
+</table>
+<hr />
+
+
+<h2 id="comparison-with-baseline-systems">Use for VC</h2>
+<p><strong>Speaker 1</strong></p>
+<table align="center">
+  <thead>
+    <tr>
+      <th>Source Speech</th>
+      <th>Prompt(Target Speaker)</th>
+      <th>Synthesized Speech</th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/1.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/aixia.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/aixia/1_text.wav" /></audio></td>
+  </tr>
+
+<tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/3.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/aixia.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/aixia/3_text.wav" /></audio></td>
+  </tr>
+  <tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/4.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/aixia.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/aixia/4_text.wav" /></audio></td>
+  </tr>
+  <tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/5.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/aixia.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/aixia/5_text.wav" /></audio></td>
+  </tr>
+  <tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/7.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/aixia.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/aixia/7_text.wav" /></audio></td>
+  </tr>
+  <tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/8.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/aixia.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/aixia/8_text.wav" /></audio></td>
+  </tr>
+  <tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/9.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/aixia.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/aixia/9_text.wav" /></audio></td>
+  </tr>
+  <tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/10.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/aixia.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/aixia/10_text.wav" /></audio></td>
+  </tr>
+
+  </tbody>
+</table>
+
+<p><strong>Speaker 2</strong></p>
+<table align="center">
+  <thead>
+    <tr>
+      <th>Source Speech</th>
+      <th>Prompt(Target Speaker)</th>
+      <th>Synthesized Speech</th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/1.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/f_singer.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/singer/1_text.wav" /></audio></td>
+  </tr>
+
+<tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/3.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/f_singer.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/singer/3_text.wav" /></audio></td>
+  </tr>
+  <tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/4.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/f_singer.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/singer/4_text.wav" /></audio></td>
+  </tr>
+  <tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/5.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/f_singer.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/singer/5_text.wav" /></audio></td>
+  </tr>
+  <tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/7.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/f_singer.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/singer/7_text.wav" /></audio></td>
+  </tr>
+  <tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/8.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/f_singer.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/singer/8_text.wav" /></audio></td>
+  </tr>
+  <tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/9.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/f_singer.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/singer/9_text.wav" /></audio></td>
+  </tr>
+  <tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/10.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/f_singer.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/singer/10_text.wav" /></audio></td>
+  </tr>
+
+  </tbody>
+</table>
+
+<p><strong>Speaker 3</strong></p>
+<table align="center">
+  <thead>
+    <tr>
+      <th>Source Speech</th>
+      <th>Prompt(Target Speaker)</th>
+      <th>Synthesized Speech</th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/1.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/f_biaobei.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/biaobei/1_text.wav" /></audio></td>
+  </tr>
+
+<tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/3.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/f_biaobei.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/biaobei/3_text.wav" /></audio></td>
+  </tr>
+  <tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/4.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/f_biaobei.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/biaobei/4_text.wav" /></audio></td>
+  </tr>
+  <tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/5.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/f_biaobei.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/biaobei/5_text.wav" /></audio></td>
+  </tr>
+  <tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/7.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/f_biaobei.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/biaobei/7_text.wav" /></audio></td>
+  </tr>
+  <tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/8.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/f_biaobei.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/biaobei/8_text.wav" /></audio></td>
+  </tr>
+  <tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/9.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/f_biaobei.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/biaobei/9_text.wav" /></audio></td>
+  </tr>
+  <tr>
+    <td><audio controls="" preload="auto"><source src="wav/vc/source/10.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/tts/f_biaobei.wav" /></audio></td>
+    <td><audio controls="" preload="auto"><source src="wav/vc/biaobei/10_text.wav" /></audio></td>
+  </tr>
+
+  </tbody>
+</table>
+
+
+<hr />
+
+<hr />
+
+
+
+<hr />
+
+
+
+
+      <footer class="site-footer">
+        
+      
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </main>
+  </body>
+</html>
