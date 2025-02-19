@@ -2,65 +2,199 @@
 <html lang="en-US">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SecoustiCodec: Streaming Speech Codec via Single-Codebook Discrete Semantic-Paralinguistic Disentanglement</title>
-  <!-- Include custom CSS -->
-  <link rel="stylesheet" href="styles.css">
   <!-- Include Google Fonts -->
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    /* Add custom CSS for improved styling */
+    /* General Styles */
     body {
-      font-family: 'Open Sans', sans-serif; /* Use Open Sans font */
-      margin: 0; /* Remove default margin */
-      padding: 0; /* Remove default padding */
+      font-family: 'Open Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9fafc;
+      color: #333;
+      line-height: 1.6;
     }
-    header {
-      background-color: #000; /* Dark background color */
-      color: #fff; /* White text color */
-      padding: 20px; /* Add padding */
-      text-align: center; /* Center-align text */
+
+    h1, h2, h3, h4 {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 700;
+      margin: 0;
     }
-    .container {
-      max-width: 1200px; /* Increase max-width for better content presentation */
-      margin: 0 auto; /* Center-align container */
-      padding: 20px; /* Add padding */
-    }
-    .section {
-      margin-bottom: 40px; /* Add spacing between sections */
-    }
-    h1, h2, h3, h4, h5, h6 {
-      font-weight: 700; /* Increase font weight for headings */
-      margin-top: 0; /* Remove default margin for headings */
-    }
+
     p {
-      line-height: 1.6; /* Increase line height for better readability */
+      margin: 0 0 1.5rem;
     }
-    /* Add styles for images */
-    img {
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(90deg, #2c3e50, #34495e);
+      color: #fff;
+      padding: 2rem 1rem;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      font-size: 1rem;
+      font-weight: 300;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    /* Sections */
+    .section {
+      margin-bottom: 3rem;
+    }
+
+    .section h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: #2c3e50;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+      border-bottom: 2px solid #e74c3c;
+      display: inline-block;
+      padding-bottom: 0.3rem;
+    }
+
+    .section p {
+      font-size: 1rem;
+      color: #555;
+    }
+
+    /* Images and Figures */
+    figure {
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    figure img {
       max-width: 100%;
       height: auto;
-      display: block;
-      margin: 0 auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-    /* Add styles for tables */
+
+    figure figcaption {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 0.5rem;
+    }
+
+    /* Tables */
     table {
       width: 100%;
       border-collapse: collapse;
+      margin: 1.5rem 0;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
+
     th, td {
-      padding: 8px;
+      padding: 1rem;
       text-align: left;
-      border-bottom: 1px solid #ddd; /* Add border between table rows */
+      border-bottom: 1px solid #ddd;
     }
+
     th {
-      background-color: #f2f2f2; /* Light background color for table header */
+      background-color: #2c3e50;
+      color: #fff;
+      font-weight: 600;
     }
-    /* Add styles for audio controls */
+
+    td {
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    tbody tr:hover {
+      background-color: #f2f2f2;
+    }
+
+    /* Audio Player */
     audio {
       width: 100%;
-      margin-top: 8px;
+      max-width: 250px;
+      margin-top: 0.5rem;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    }
+
+    /* Footer */
+    footer {
+      background: #2c3e50;
+      color: #fff;
+      text-align: center;
+      padding: 1rem 0;
+      font-size: 0.9rem;
+    }
+
+    /* Utility Classes */
+    .text-center {
+      text-align: center;
+    }
+
+    .highlight {
+      color: #e74c3c;
+      font-weight: 600;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+    }
+
+    .card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.5rem;
+      }
+
+      header p {
+        font-size: 0.9rem;
+      }
+
+      .section h2 {
+        font-size: 1.5rem;
+      }
+
+      table {
+        font-size: 0.85rem;
+      }
     }
   </style>
 </head>
@@ -68,57 +202,47 @@
   <header>
     <h1>SecoustiCodec: Streaming Speech Codec via Single-Codebook Discrete Semantic-Paralinguistic Disentanglement</h1>
   </header>
+
   <main>
     <div class="container">
+      <!-- Abstract Section -->
       <section class="section">
-        <h2 class="title is-4">Abstract</h2>
-        <p>Speech codecs serve as a crucial bridge in unifying speech and text language models. Existing codec methods face several challenges in semantic encoding, such as residual paralinguistic information, insufficient semantic completeness, limited reconstruction capability, and lack of support for streaming.
-          To address these challenges, we propose SecoustiCodec, which independently models acoustic, semantic, and paralinguistic information to achieve high-fidelity real-time streaming encoding and decoding.
+        <h2>Abstract</h2>
+        <p>
+            Speech codecs serve as a crucial bridge in unifying speech and text language models. Existing codec methods face several challenges in semantic encoding, such as residual paralinguistic information, insufficient semantic completeness, limited reconstruction capability, and lack of support for streaming.
+          To address these challenges, we propose <span class="highlight">SecoustiCodec</span>, which independently models acoustic, semantic, and paralinguistic information to achieve high-fidelity real-time streaming encoding and decoding.
           Firstly, to ensure semantic completeness and reconstruction fidelity, paralinguistic encoding is introduced to bridge the information gap between semantic and acoustic encoding. Secondly, a semantic-only efficient quantization method based on VAE (Variational Autoencoder) and FSQ (Finite Scalar Quantization) is proposed. This approach alleviates the long-tail distribution problem of tokens while maintaining high codebook utilization. Additionally, a semantic disentanglement method based on contrastive learning is proposed, which aligns text and speech in a joint multimodal frame-level space, effectively removing paralinguistic information from semantic encoding. Finally, a multi-stage optimization strategy is proposed to ensure robust and stable convergence.
           Experimental results demonstrate that SecoustiCodec outperforms mainstream codec solutions such as Encodec, FACodec, SpeechTokenizer, and MimiCodec across multiple metrics, including latency, PESQ, LSD, and MCD.</p>
       </section>
 
-      <!-- 实验数据和基准数据的额外说明 -->
+      <!-- Experiment Section -->
       <section class="section">
-        <h2 class="title is-4">Experiment</h2>
-        <p><strong>Experiment Details:</strong></p>
-        <p>This page shows the samples in the paper "<strong>SecoustiCodec: Streaming Speech Codec via Single-Codebook Discrete Semantic-Paralinguistic Disentanglement</strong>".</p>
-        <p>For the labeled text-speech paired data, we integrate our internal dataset with the AISHELL-3 dataset and the LibriTTS dataset, resulting in a combined total of 1,000 hours of recordings from 3,000 speakers.
-          All speech waveforms are sampled at 22kHz and converted to 80-band mel spectrograms with a window size of 1024 and a hop size of 256. </p>
-        <p>All test samples and speakers have not appeared in the training set and validation set.</p>
-
+        <h2>Experiment</h2>
+        <p>This page shows the samples in the paper "<span class="highlight">SecoustiCodec</span>: Streaming Speech Codec via Single-Codebook Discrete Semantic-Paralinguistic Disentanglement".</p>
+        <p>For the labeled text-speech paired data, we integrate our internal dataset with the AISHELL-3 dataset and the LibriTTS dataset, resulting in a combined total of 1,000 hours of recordings from 3,000 speakers. </p>
+          <p>All test samples and speakers have not appeared in the training set and validation set.</p>
+          <p>To ensure fairness in all objective metric evaluations, as the sampling rates of the comparison methods differ, the audio generated by SecoustiCodec and all comparison models is downsampled to 16kHz.</p>
       </section>
-  
-      <!-- 模型架构图 -->
+
+      <!-- Model Architecture -->
       <section class="section">
-        <h2 class="title is-4">Model Architecture</h2>
-        <figure class="image">
+        <h2>Model Architecture</h2>
+        <figure>
           <img src="model.png" alt="Model Architecture">
-          <figcaption style="font-style: italic; margin-top: 8px;">
-            <p><strong>SecoustiCodec</strong> includes three modeling processes: (a) <i>Acoustic Modeling</i>, (b) <i>Semantic Modeling</i>, and (c) <i>Paralinguistic Modeling</i>. Modules outlined in <span style="color:rgb(255, 69, 0)">red</span> operate in a <span style="color:rgb(255, 69, 0);">streaming manner</span>, while those in <span style="color:rgb(25, 25, 112);">blue</span> are <span style="color:rgb(25, 25, 112)">non-streaming</span>. Phoneme embeddings (<i>P</i>) are extracted from text, and target semantic embeddings (<i>S</i>), acoustic embeddings (<i>A</i>), and paralinguistic embeddings (<i>G</i>) are extracted from speech. (<i>P</i>) and (<i>S</i>) are used to construct token-acoustic contrastive loss, which learns frame-level (dis)similarity between a batch of speech and text pairs. 
-          </figcaption>
+          <figcaption><strong>SecoustiCodec</strong> includes three modeling processes: (a) <i>Acoustic Modeling</i>, (b) <i>Semantic Modeling</i>, and (c) <i>Paralinguistic Modeling</i>. Modules outlined in <span style="color:rgb(255, 69, 0)">red</span> operate in a <span style="color:rgb(255, 69, 0);">streaming manner</span>, while those in <span style="color:rgb(25, 25, 112);">blue</span> are <span style="color:rgb(25, 25, 112)">non-streaming</span>. Phoneme embeddings (<i>P</i>) are extracted from text, and target semantic embeddings (<i>S</i>), acoustic embeddings (<i>A</i>), and paralinguistic embeddings (<i>G</i>) are extracted from speech. (<i>P</i>) and (<i>S</i>) are used to construct token-acoustic contrastive loss, which learns frame-level (dis)similarity between a batch of speech and text pairs. </figcaption>
         </figure>
       </section>
 
-      <!-- Inference -->
+      <!-- Inference Section -->
       <section class="section">
-        <h2 class="title is-4">The inference process of SecoustiCodec supports the independent speech reconstruction through semantic and acoustic encoding.</h2>
-        <figure class="image">
-          <img src="inference.png" alt="application">
-          <figcaption style="font-style: italic; margin-top: 8px;">
-            As illustrated in (a), the speech reconstruction using semantic encoding involves semantic embeddings that are discrete values from a single codebook. Notably, in TTS or voice-based dialogue tasks, the target speaker's timbre is often fixed. Therefore, predefined speech segments are used to extract paralinguistic embeddings, ensuring consistency in the synthesized speech's paralinguistic information. In the speech reconstruction task, a segment from the middle of the input speech is used to extract the paralinguistic embedding. Both semantic and paralinguistic encoding utilize a VAE structure, where the mean(μ and μ&#770) is directly used as input during inference, bypassing stochastic sampling. The process of speech reconstruction using acoustic encoding, depicted in (b), involves acoustic embedding that consist of continuous values. This approach achieves high-fidelity acoustic modeling without any loss of information.
-          </figcaption>
+        <h2>Inference</h2>
+        <figure>
+          <img src="inference.png" alt="Inference Process">
+          <figcaption>As illustrated in (a), the speech reconstruction using semantic encoding involves semantic embeddings that are discrete values from a single codebook. Notably, in TTS or voice-based dialogue tasks, the target speaker's timbre is often fixed. Therefore, predefined speech segments are used to extract paralinguistic embeddings, ensuring consistency in the synthesized speech's paralinguistic information. In the speech reconstruction task, a segment from the middle of the input speech is used to extract the paralinguistic embedding. Both semantic and paralinguistic encoding utilize a VAE structure, where the mean(μ and μ&#770) is directly used as input during inference, bypassing stochastic sampling. The process of speech reconstruction using acoustic encoding, depicted in (b), involves acoustic embedding that consist of continuous values. This approach achieves high-fidelity acoustic modeling without any loss of information.</figcaption>
         </figure>
       </section>
-      <section class="section">
-        <h2 class="title is-4">Compared Method and Tasks</h2>
-        <p>
-          To evaluate the performance of the proposed model, we conduct experiments on both semantic and acoustic encoding tasks for speech reconstruction (<i>Speech2Semantic2Speech</i> &amp; <i>Speech2Acoustic2Speech</i>). We compare <b>SecoustiCodec</b> with five representative Codec models, as summarized in Table 1. The table lists key attributes of each model, including frame rate, sampling rate, codebook size, parameter size, training data duration, and whether the model employs a causal structure supporting streaming encoding and decoding. 
-      </p>
-      <p>
-          The comparison includes classic streaming Codec models like <b>Encodec</b> (<a href="https://github.com/facebookresearch/encodec" target="_blank">https://github.com/facebookresearch/encodec</a>), semantic disentanglement models like <b>SpeechTokenizer</b> (<a href="https://github.com/ZhangXInFD/SpeechTokenizer" target="_blank">https://github.com/ZhangXInFD/SpeechTokenizer</a>) and <b>MimiCodec</b> (Moshi) (<a href="https://huggingface.co/kyutai/mimi" target="_blank">https://huggingface.co/kyutai/mimi</a>), as well as <b>FACodec</b> (NaturalSpeech 3) (<a href="https://github.com/lifeiteng/naturalspeech3_facodec" target="_blank">https://github.com/lifeiteng/naturalspeech3_facodec</a>), which disentangles attributes through supervised tasks, and <b>VQ-CTAP</b>, which uses contrastive learning for semantic disentanglement. Notably, VQ-CTAP is a single-codebook model specifically designed for semantic encoding, so we only evaluate its performance on the semantic encoding task (<i>Speech2Semantic2Speech</i>). For Encodec, SpeechTokenizer, and MimiCodec, we use the RVQ-1 encoding as the semantic representation. For FACodec, we use the VQ encoding from the content layer as the semantic representation. Since all methods except VQ-CTAP use multiple codebooks, we also compare their performance under different codebook conditions to demonstrate the effectiveness of SecoustiCodec.
-      </p>
-    
+
+      <!-- Comparison Table -->
       <style>
         .audio-table {
             background: linear-gradient(145deg, #f8f9fa 0%, #e9ecef 100%);
@@ -1040,30 +1164,26 @@
       </section>
 
 
-
-      <!-- TSNE -->
+      <!-- Codebook Utilization -->
       <section class="section">
-        <h2 class="title is-4">Codebook Utilization.</h2>
-        <figure class="image">
-          <img src="token.png" alt="token">
-          <figcaption style="font-style: italic; margin-top: 8px;">
-            VAE-FSQ achieves the highest codebook utilization, with nearly all tokens activated, significantly surpassing VQ-VAE and SimVQ. Additionally, VAE-FSQ minimizes the long-tail effect, with most token frequencies below 0.2%, which aids language model training in TTS and voice dialogue tasks.
-          </figcaption>
+        <h2>Codebook Utilization</h2>
+        <figure>
+          <img src="token.png" alt="Codebook Utilization">
+          <figcaption>VAE-FSQ achieves the highest codebook utilization, with nearly all tokens activated, significantly surpassing VQ-VAE and SimVQ. Additionally, VAE-FSQ minimizes the long-tail effect, with most token frequencies below 0.2%, which aids language model training in TTS and voice dialogue tasks.</figcaption>
         </figure>
       </section>
       <section class="section">
-        <h2 class="title is-4">The Spectrograms, F0, and Energy of synthesized speech (the same semantic coding combining different paralinguistics). The bottom row is the ground-truth. The synthesized speech and the paralinguistic speech exhibit consistency in the numerical range and variation trends of spectrogram, F0, and energy.</h2>
-        <figure class="image">
+        <h2>The Spectrograms, F0, and Energy of synthesized speech.</h2>
+        <figure>
           <img src="mel.png" alt="spectrograms">
-          <figcaption style="font-style: italic; margin-top: 8px;">
-            F0, and energy of speech generated by SecoustiCodec using the same semantic encoding combined with paralinguistic embeddings from different speakers (equivalent to a voice conversion task). As shown in the figure, the synthesized speech exhibits strong alignment with the paralinguistic speech across multiple frequency domains, F0, and energy spectrograms. This is attributed to the disentanglement of paralinguistic information in the semantic encoding and the paralinguistic modeling capability of the paralinguistic encoder in SecoustiCodec.
-          </figcaption>
+          <figcaption>F0, and energy of speech generated by SecoustiCodec using the same semantic encoding combined with paralinguistic embeddings from different speakers (equivalent to a voice conversion task). As shown in the figure, the synthesized speech exhibits strong alignment with the paralinguistic speech across multiple frequency domains, F0, and energy spectrograms. This is attributed to the disentanglement of paralinguistic information in the semantic encoding and the paralinguistic modeling capability of the paralinguistic encoder in SecoustiCodec.</figcaption>
         </figure>
       </section>
     </div>
   </main>
+
   <footer>
-    <p>© 2025 SecoustiCodec. All rights reserved.</p>
+    <p>&copy; 2025 SecoustiCodec. All rights reserved.</p>
   </footer>
 </body>
 </html>
