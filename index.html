@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SecoustiCodec: Streaming Speech Codec via Single-Codebook Discrete Semantic-Paralinguistic Disentanglement</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <title>SecoustiCodec: Cross-Modal Aligned Streaming Single-Codecbook Speech Codec</title>
   <!-- Include Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
@@ -200,7 +202,7 @@
 </head>
 <body>
   <header>
-    <h1>SecoustiCodec: Streaming Speech Codec via Single-Codebook Discrete Semantic-Paralinguistic Disentanglement</h1>
+    <h1>SecoustiCodec: Cross-Modal Aligned Streaming Single-Codecbook Speech Codec</h1>
   </header>
 
   <main>
@@ -209,16 +211,13 @@
       <section class="section">
         <h2>Abstract</h2>
         <p>
-            Speech codecs serve as a crucial bridge in unifying speech and text language models. Existing codec methods face several challenges in semantic encoding, such as residual paralinguistic information, insufficient semantic completeness, limited reconstruction capability, and lack of support for streaming.
-          To address these challenges, we propose <span class="highlight">SecoustiCodec</span>, which independently models acoustic, semantic, and paralinguistic information to achieve high-fidelity real-time streaming encoding and decoding.
-          Firstly, to ensure semantic completeness and reconstruction fidelity, paralinguistic encoding is introduced to bridge the information gap between semantic and acoustic encoding. Secondly, a semantic-only efficient quantization method based on VAE (Variational Autoencoder) and FSQ (Finite Scalar Quantization) is proposed. This approach alleviates the long-tail distribution problem of tokens while maintaining high codebook utilization. Additionally, a semantic disentanglement method based on contrastive learning is proposed, which aligns text and speech in a joint multimodal frame-level space, effectively removing paralinguistic information from semantic encoding. Finally, a multi-stage optimization strategy is proposed to ensure robust and stable convergence.
-          Experimental results demonstrate that SecoustiCodec outperforms mainstream codec solutions such as Encodec, FACodec, SpeechTokenizer, and MimiCodec across multiple metrics, including latency, PESQ, LSD, and MCD.</p>
+          Speech codecs serve as a crucial bridge in unifying speech and text language models. Existing codec methods face several challenges in semantic encoding, such as residual paralinguistic information (e.g., timbre, emotion), insufficient semantic completeness, limited reconstruction capability, and lack of support for streaming. To address these challenges, we propose SecoustiCodec, a cross-modal aligned low-bitrate streaming speech codec that disentangles semantic and paralinguistic information in a single-codebook space. Our key innovations include: (1) To ensure semantic completeness and reconstruction fidelity, paralinguistic encoding is introduced to bridge the information gap between semantic and acoustic encoding. (2) A semantic-only efficient quantization method based on VAE (Variational Autoencoder) and FSQ (Finite Scalar Quantization) is proposed. This approach alleviates the long-tail distribution problem of tokens while maintaining high codebook utilization. (3) A semantic disentanglement method based on contrastive learning is proposed, which aligns text and speech in a joint multimodal frame-level space, effectively removing paralinguistic information from semantic encoding. (4) An acoustic-constrained multi-stage optimization strategy is proposed to ensure robust and stable convergence. Figure1 shows SecoustiCodec achieves SOTA (state-of-the-art) reconstruction quality (PESQ) of 1.77/2.58 at 0.27/1 kbps. The code and model weights for SecoustiCodec will be open-sourced upon the completion of the peer-review process.</p>
       </section>
 
       <!-- Experiment Section -->
       <section class="section">
         <h2>Experiment</h2>
-        <p>This page shows the samples in the paper "<span class="highlight">SecoustiCodec</span>: Streaming Speech Codec via Single-Codebook Discrete Semantic-Paralinguistic Disentanglement".</p>
+        <p>This page shows the samples in the paper "<span class="highlight">SecoustiCodec</span>: Cross-Modal Aligned Streaming Single-Codecbook Speech Codec".</p>
         <p>For the labeled text-speech paired data, we integrate our internal dataset with the AISHELL-3 dataset and the LibriTTS dataset, resulting in a combined total of 1,000 hours of recordings from 3,000 speakers. </p>
           <p>All test samples and speakers have not appeared in the training set and validation set.</p>
           <p>To ensure fairness in all objective metric evaluations, as the sampling rates of the comparison methods differ, the audio generated by SecoustiCodec and all comparison models is downsampled to 16kHz.</p>
@@ -228,17 +227,17 @@
       <section class="section">
         <h2>Model Architecture</h2>
         <figure>
-          <img src="model.png" alt="Model Architecture">
-          <figcaption><strong>SecoustiCodec</strong> includes three modeling processes: (a) <i>Acoustic Modeling</i>, (b) <i>Semantic Modeling</i>, and (c) <i>Paralinguistic Modeling</i>. Modules outlined in <span style="color:rgb(255, 69, 0)">red</span> operate in a <span style="color:rgb(255, 69, 0);">streaming manner</span>, while those in <span style="color:rgb(25, 25, 112);">blue</span> are <span style="color:rgb(25, 25, 112)">non-streaming</span>. Phoneme embeddings (<i>P</i>) are extracted from text, and target semantic embeddings (<i>S</i>), acoustic embeddings (<i>A</i>), and paralinguistic embeddings (<i>G</i>) are extracted from speech. (<i>P</i>) and (<i>S</i>) are used to construct token-acoustic contrastive loss, which learns frame-level (dis)similarity between a batch of speech and text pairs. </figcaption>
+            <img src="model.png" alt="Model Architecture">
+            <figcaption><strong>SecoustiCodec</strong> includes three modeling processes: (a) <i>Acoustic Modeling</i>, (b) <i>Semantic Modeling</i>, and (c) <i>Paralinguistic Modeling</i>. Modules outlined in <span style="color:rgb(255, 69, 0)">red</span> operate in a <span style="color:rgb(255, 69, 0);">streaming manner</span>, while those in <span style="color:rgb(25, 25, 112);">blue</span> are <span style="color:rgb(25, 25, 112)">non-streaming</span>. Phoneme embeddings (<i>P</i>) are extracted from text, and target semantic embeddings (<i>S</i>), acoustic embeddings (<i>A</i>), and paralinguistic embeddings (<i>G</i>) are extracted from speech. (<i>P</i>) and (<i>S</i>) are used to construct token-acoustic contrastive loss, which learns frame-level (dis)similarity between a batch of speech and text pairs. In the inference process, Acoustic Projection is not required; instead, semantic embedding and paralinguistic embedding are used to predict acoustic embedding. The mean values (&#956; and \( \hat{\mu} \)) from the VAE structure are directly used as inputs during inference, bypassing stochastic sampling.</figcaption>
         </figure>
-      </section>
+    </section>
 
       <!-- Inference Section -->
       <section class="section">
         <h2>Inference</h2>
         <figure>
           <img src="inference.png" alt="Inference Process">
-          <figcaption>As illustrated in (a), the speech reconstruction using semantic encoding involves semantic embeddings that are discrete values from a single codebook. Notably, in TTS or voice-based dialogue tasks, the target speaker's timbre is often fixed. Therefore, predefined speech segments are used to extract paralinguistic embeddings, ensuring consistency in the synthesized speech's paralinguistic information. In the speech reconstruction task, a segment from the middle of the input speech is used to extract the paralinguistic embedding. Both semantic and paralinguistic encoding utilize a VAE structure, where the mean(μ and μ&#770) is directly used as input during inference, bypassing stochastic sampling. The process of speech reconstruction using acoustic encoding, depicted in (b), involves acoustic embedding that consist of continuous values. This approach achieves high-fidelity acoustic modeling without any loss of information.</figcaption>
+          <figcaption>As illustrated in (a), the speech reconstruction using semantic encoding involves semantic embeddings that are discrete values from a single codebook. Notably, in TTS or voice-based dialogue tasks, the target speaker's timbre is often fixed. Therefore, predefined speech segments are used to extract paralinguistic embeddings, ensuring consistency in the synthesized speech's paralinguistic information. In the speech reconstruction task, a segment from the middle of the input speech is used to extract the paralinguistic embedding. Both semantic and paralinguistic encoding utilize a VAE structure, where the mean(μ and μ&#770) is directly used as input during inference, bypassing stochastic sampling.</figcaption>
         </figure>
       </section>
 
@@ -302,7 +301,7 @@
         </style>
         
         <section class="container py-5">
-            <h2 class="section-title text-center mb-4">Speech Reconstruction Task by Semantic Encoding (Speech2Semantic2Speech)</h2>
+            <h2 class="section-title text-center mb-4">Speech Reconstruction Task</h2>
             
             <div class="audio-table p-4">
                 <table class="w-100">
@@ -310,16 +309,16 @@
                         <tr>
                             <th class="text-start ps-4">Text</th>
                             <th>Ground Truth</th>
-                            <th>SecoustiCodec (Proposed)</th>
-                            <th>Encodec<br>RVQ-1</th>
-                            <th>Encodec<br>RVQ-1:2</th>
-                            <th>FACodec<br>VQ(content)</th>
-                            <th>FACodec<br>VQ(prosody)</th>
-                            <th>SpeechTokenizer<br>RVQ-1</th>
-                            <th>SpeechTokenizer<br>RVQ-1:2</th>
-                            <th>MimiCodec<br>RVQ-1</th>
-                            <th>MimiCodec<br>RVQ-1:4</th>
-                            <th>VQ-CTAP</th>
+                            <th>SecoustiCodec<br>(1 kbps)</th>
+                            <th>SecoustiCodec<br>(0.27 kbps)</th>
+                            <th>WavTokenizer<br>(0.5 kbps)</th>
+                            <th>TAAE<br>(0.6 kbps)</th>
+                            <th>VQ-CTAP<br>(0.33 kbps)</th>
+                            <th>BigCodec<br>(1 kbps)</th>
+                            <th>Encodec<br>(1.5 kbps)</th>
+                            <th>FACodec<br>(1.6 kbps)</th>
+                            <th>SpeechTokenizer<br>(1 kbps)</th>
+                            <th>MimiCodec<br>(0.55 kbps)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -327,423 +326,407 @@
                           <td class="text-column ps-4">无法对此作出评论，客人有事尽管吩咐！</td>
                           <td><audio controls="" preload="auto"><source src="wav/gt/8.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/8.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/8.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/8.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/8.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/taae/8.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/vqctap/8.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/BigCodec/8.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/8.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/facodec/content/8.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/8.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/8.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/8.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/8.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/8.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/vqctap/8.wav" /></audio></td>
-                          
                         </tr>
                         <tr>
                           <td class="text-column ps-4">北约外长磋商波黑局势，他也一跃成为千万富翁。</td>
                           <td><audio controls="" preload="auto"><source src="wav/gt/9.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/9.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/9.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/9.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/9.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/taae/9.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/vqctap/9.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/BigCodec/9.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/9.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/facodec/content/9.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/9.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/9.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/9.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/9.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/9.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/vqctap/9.wav" /></audio></td>
                           
                         </tr>
                         <tr>
                           <td class="text-column ps-4">钱要花在刀刃儿上，月光般柔和的羽毛。</td>
                           <td><audio controls="" preload="auto"><source src="wav/gt/10.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/10.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/10.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/10.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/10.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/taae/10.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/vqctap/10.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/BigCodec/10.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/10.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/facodec/content/10.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/10.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/10.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/10.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/10.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/10.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/vqctap/10.wav" /></audio></td>
                           
                         </tr>
                         <tr>
                           <td class="text-column ps-4">鳄鱼屿恰恰位处翔安琼头。</td>
                           <td><audio controls="" preload="auto"><source src="wav/gt/11.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/11.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/11.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/11.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/11.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/taae/11.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/vqctap/11.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/BigCodec/11.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/11.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/facodec/content/11.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/11.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/11.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/11.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/11.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/11.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/vqctap/11.wav" /></audio></td>
                           
                         </tr>
                         <tr>
                           <td class="text-column ps-4">法瑞尔与新欢艾格尼斯，翁凯兰防乳腺癌宣传照。</td>
                           <td><audio controls="" preload="auto"><source src="wav/gt/12.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/12.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/12.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/12.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/12.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/taae/12.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/vqctap/12.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/BigCodec/12.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/12.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/facodec/content/12.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/12.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/12.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/12.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/12.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/12.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/vqctap/12.wav" /></audio></td>
                           
                         </tr>
                         <tr>
                           <td class="text-column ps-4">鹅蛋找鸭蛋比大小，鸭蛋说：我不和你比，我跟鸡蛋比。</td>
                           <td><audio controls="" preload="auto"><source src="wav/gt/13.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/13.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/13.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/13.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/13.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/taae/13.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/vqctap/13.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/BigCodec/13.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/13.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/facodec/content/13.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/13.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/13.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/13.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/13.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/13.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/vqctap/13.wav" /></audio></td>
                           
                         </tr>
                         <tr>
                           <td class="text-column ps-4">无法对此作出评论，客人有事尽管吩咐！</td>
                           <td><audio controls="" preload="auto"><source src="wav/gt/14.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/14.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/14.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/14.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/14.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/taae/14.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/vqctap/14.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/BigCodec/14.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/14.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/facodec/content/14.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/14.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/14.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/14.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/14.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/14.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/vqctap/14.wav" /></audio></td>
                           
                         </tr>
                         <tr>
                           <td class="text-column ps-4">以为中餐就是酸甜肉左宗棠鸡烤鸭馄饨炒面饺子之类的。</td>
                           <td><audio controls="" preload="auto"><source src="wav/gt/15.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/15.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/15.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/15.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/15.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/taae/15.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/vqctap/15.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/BigCodec/15.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/15.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/facodec/content/15.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/15.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/15.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/15.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/15.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/15.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/vqctap/15.wav" /></audio></td>
                           
                         </tr>
                         <tr>
                           <td class="text-column ps-4">大雨旁沱，电闪雷呜，令人耳聩目弦。</td>
                           <td><audio controls="" preload="auto"><source src="wav/gt/16.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/16.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/16.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/16.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/16.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/taae/16.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/vqctap/16.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/BigCodec/16.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/16.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/facodec/content/16.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/16.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/16.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/16.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/16.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/16.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/vqctap/16.wav" /></audio></td>
                           
                         </tr>
                         <tr>
                           <td class="text-column ps-4">有蘑菇炒青菜、油豆腐烧肉、回锅肉、丝瓜文葛汤、酸菜鱼。</td>
                           <td><audio controls="" preload="auto"><source src="wav/gt/17.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/17.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/17.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/17.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/17.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/taae/17.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/vqctap/17.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/BigCodec/17.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/17.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/facodec/content/17.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/17.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/17.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/17.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/17.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/17.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/vqctap/17.wav" /></audio></td>
                         </tr>
                         <tr>
                           <td class="text-column ps-4">以为中餐就是甜酸肉左宗棠鸡烤鸭馄炖炒面饺子之类的。</td>
                           <td><audio controls="" preload="auto"><source src="wav/gt/18.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/18.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/18.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/18.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/18.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/taae/18.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/vqctap/18.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/BigCodec/18.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/18.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/facodec/content/18.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/18.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/18.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/18.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/18.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/18.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/vqctap/18.wav" /></audio></td>
                         </tr>
                         <tr>
                           <td class="text-column ps-4">这是老师第一次表扬我，我非常地开心。</td>
                           <td><audio controls="" preload="auto"><source src="wav/gt/19.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/19.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/19.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/19.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/19.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/taae/19.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/vqctap/19.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/BigCodec/19.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/19.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/facodec/content/19.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/19.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/19.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/19.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/19.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/19.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/vqctap/19.wav" /></audio></td>
                         </tr>
                         <tr>
                           <td class="text-column ps-4">烧花鸭，烧雏鸡儿，这城市交通有问题。</td>
                           <td><audio controls="" preload="auto"><source src="wav/gt/20.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/20.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/20.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/20.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/20.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/taae/20.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/vqctap/20.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/BigCodec/20.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/20.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/facodec/content/20.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/20.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/20.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/20.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/20.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/20.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/vqctap/20.wav" /></audio></td>
                         </tr>
                         <tr>
                           <td class="text-column ps-4">唉你怎么越长越窝囊。</td>
                           <td><audio controls="" preload="auto"><source src="wav/gt/21.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/21.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/21.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/21.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/21.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/taae/21.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/vqctap/21.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/BigCodec/21.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/21.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/facodec/content/21.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/21.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/21.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/21.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/21.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/21.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/vqctap/21.wav" /></audio></td>
                         </tr>
                         <tr>
                           <td class="text-column ps-4">几天用一张，用完就扔，高压铁塔下的低矮棚屋。</td>
                           <td><audio controls="" preload="auto"><source src="wav/gt/22.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/22.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/22.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/22.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/22.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/taae/22.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/vqctap/22.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/BigCodec/22.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/22.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/facodec/content/22.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/22.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/22.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/22.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/22.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/22.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/vqctap/22.wav" /></audio></td>
                         </tr>
                         <tr>
                           <td class="text-column ps-4">法院准许合同解除，欢声笑语洒满村庄。</td>
                           <td><audio controls="" preload="auto"><source src="wav/gt/23.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/23.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/23.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/23.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/23.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/taae/23.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/vqctap/23.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/BigCodec/23.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/23.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/facodec/content/23.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/23.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/23.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/23.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/23.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/23.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/vqctap/23.wav" /></audio></td>
                         </tr>
                         <tr>
                           <td class="text-column ps-4">几天用一张，用完就扔，高压铁塔下的低矮棚屋。</td>
                           <td><audio controls="" preload="auto"><source src="wav/gt/24.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/24.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/24.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/24.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/24.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/taae/24.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/vqctap/24.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/BigCodec/24.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/24.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/facodec/content/24.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/24.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/24.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/24.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/24.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/24.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/vqctap/24.wav" /></audio></td>
                         </tr>
                         <tr>
                           <td class="text-column ps-4">熊熊火焰从教堂两座钟楼间窜出，塔尖随后轰然倒塌。</td>
                           <td><audio controls="" preload="auto"><source src="wav/gt/25.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/25.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/25.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/25.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/25.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/taae/25.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/vqctap/25.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/BigCodec/25.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/25.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/facodec/content/25.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/25.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/25.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/25.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/25.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/25.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/vqctap/25.wav" /></audio></td>
                         </tr>
                         <tr>
                           <td class="text-column ps-4">为了试验那个号称离子等距喷雾柔顺衣料和高频紫外线杀菌的功能。</td>
                           <td><audio controls="" preload="auto"><source src="wav/gt/26.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/26.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/26.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/26.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/26.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/taae/26.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/vqctap/26.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/BigCodec/26.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/26.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/facodec/content/26.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/26.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/26.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/26.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/26.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/26.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/vqctap/26.wav" /></audio></td>
                         </tr>
                         <tr>
                           <td class="text-column ps-4">卡迪姿，美丽爱上你！</td>
                           <td><audio controls="" preload="auto"><source src="wav/gt/27.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/27.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/27.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/27.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/27.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/taae/27.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/vqctap/27.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/BigCodec/27.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/27.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/facodec/content/27.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/27.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/27.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/27.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/27.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/27.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/vqctap/27.wav" /></audio></td>
                         </tr>
                         <tr>
                           <td class="text-column ps-4">追悔莫及，悔之晚矣。</td>
                           <td><audio controls="" preload="auto"><source src="wav/gt/28.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/28.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/28.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/28.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/28.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/taae/28.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/vqctap/28.wav" /></audio></td>
+                          <td><audio controls="" preload="auto"><source src="wav/BigCodec/28.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/28.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/facodec/content/28.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/28.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/28.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/28.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/28.wav" /></audio></td>
                           <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/28.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/vqctap/28.wav" /></audio></td>
                         </tr>
                         <tr>
                             <td class="text-column ps-4">And yet a third time he sighs, said smee. Then at last he spoke passionately. the game's up, he cried, those boys have found a mother. Affrighted though she was, wendy swelled with pride. o evil day! cried starkey.，what's a mother? asked the ignorant smee.</td>
                             <td><audio controls="" preload="auto"><source src="wav/gt/1.wav" /></audio></td>
                             <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/1.wav" /></audio></td>
-                            <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/1.wav" /></audio></td>
+                            <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/1.wav" /></audio></td>
+                            <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/1.wav" /></audio></td>
+                            <td><audio controls="" preload="auto"><source src="wav/taae/1.wav" /></audio></td>
+                            <td><audio controls="" preload="auto"><source src="wav/vqctap/1.wav" /></audio></td>
+                            <td><audio controls="" preload="auto"><source src="wav/BigCodec/1.wav" /></audio></td>
                             <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/1.wav" /></audio></td>
                             <td><audio controls="" preload="auto"><source src="wav/facodec/content/1.wav" /></audio></td>
-                            <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/1.wav" /></audio></td>
-                            <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/1.wav" /></audio></td>
                             <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/1.wav" /></audio></td>
-                            <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/1.wav" /></audio></td>
                             <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/1.wav" /></audio></td>
-                            <td><audio controls="" preload="auto"><source src="wav/vqctap/1.wav" /></audio></td>
                             
                         </tr>
-                        <tr>
-                          <td class="text-column ps-4">And yet a third time he sighs, said smee. Then at last he spoke passionately. the game's up, he cried, those boys have found a mother. Affrighted though she was, wendy swelled with pride. o evil day! cried starkey.，what's a mother? asked the ignorant smee.</td>
-                          <td><audio controls="" preload="auto"><source src="wav/gt/1.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/1.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/1.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/1.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/content/1.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/1.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/1.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/1.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/1.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/1.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/vqctap/1.wav" /></audio></td>
-                          
-                      </tr>
                       <tr>
                         <td class="text-column ps-4">An ear as big as a man! I looked still more attentively—and actually there did move under the ear something that was pitiably small and poor and slim.</td>
-                        <td><audio controls="" preload="auto"><source src="wav/gt/2.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/gt/.wav" /></audio></td>
                         <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/2.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/2.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/2.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/2.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/taae/2.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/vqctap/2.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/BigCodec/2.wav" /></audio></td>
                         <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/2.wav" /></audio></td>
                         <td><audio controls="" preload="auto"><source src="wav/facodec/content/2.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/2.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/2.wav" /></audio></td>
                         <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/2.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/2.wav" /></audio></td>
                         <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/2.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/vqctap/2.wav" /></audio></td>
                         
                       </tr>
                       <tr>
                         <td class="text-column ps-4">We entered together; Catherine was there, making herself useful in preparing some vegetables for the approaching meal. She looked more sulky and less spirited than when I had seen her first. She hardly raised her eyes to notice me, and continued her employment with the same disregard to common forms of politeness as before; never returning my bow and good morning by the slightest acknowledgment. "She does not seem so amiable," I thought, "as Mrs. Dean would persuade me to believe."</td>
                         <td><audio controls="" preload="auto"><source src="wav/gt/3.wav" /></audio></td>
                         <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/3.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/3.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/3.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/content/3.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/3.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/3.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/3.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/3.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/3.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/3.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/3.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/taae/3.wav" /></audio></td>
                         <td><audio controls="" preload="auto"><source src="wav/vqctap/3.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/BigCodec/3.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/encodec/3_dim_smantic/3.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/facodec/content/3.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/3_dim_smantic/3.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/3.wav" /></audio></td>
                         
                       </tr>
                       <tr>
                         <td class="text-column ps-4">But Sir Hugh was altogether of a different opinion. Though he had already asked his sister-in-law to Clavering, when the idea had first come up, he was glad that she had declined the visit. Her coming might be very well if she accepted Archie; but he did not want to be troubled with any renewal of his responsibility respecting her if, as was more probable, she should reject him. The world still looked askance at Lady Ongar, and Hugh did not wish to take up the armor of a paladin in her favor.</td>
                         <td><audio controls="" preload="auto"><source src="wav/gt/4.wav" /></audio></td>
                         <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/4.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/4.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/4.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/content/4.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/4.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/4.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/4.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/4.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/4.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/4.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/4.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/taae/4.wav" /></audio></td>
                         <td><audio controls="" preload="auto"><source src="wav/vqctap/4.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/BigCodec/4.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/encodec/4_dim_smantic/4.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/facodec/content/4.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/4_dim_smantic/4.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/4.wav" /></audio></td>
                         
                       </tr>
                       <tr>
                         <td class="text-column ps-4">He was thankful, at any rate, that Louis in this two years' interval had finally transferred his heart elsewhere. I told you.</td>
                         <td><audio controls="" preload="auto"><source src="wav/gt/5.wav" /></audio></td>
                         <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/5.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/5.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/5.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/content/5.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/5.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/5.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/5.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/5.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/5.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/5.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/5.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/taae/5.wav" /></audio></td>
                         <td><audio controls="" preload="auto"><source src="wav/vqctap/5.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/BigCodec/5.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/encodec/5_dim_smantic/5.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/facodec/content/5.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/5_dim_smantic/5.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/5_dim_smantic/5.wav" /></audio></td>
                         
                       </tr>
                       <tr>
                         <td class="text-column ps-4">For since natural affection rests upon natural unity, the angel naturally loves less what is less one with him. Consequently, he loves more what is numerically one with himself than what is one only generically or specifically. But it is natural for him to have a like love for another as for himself, in this respect, that as he loves self in wishing well to self, so he loves another in wishing well to him.</td>
                         <td><audio controls="" preload="auto"><source src="wav/gt/6.wav" /></audio></td>
                         <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/6.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/6.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/6.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/content/6.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/6.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/6.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/6.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/6.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/6.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/6.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/6.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/taae/6.wav" /></audio></td>
                         <td><audio controls="" preload="auto"><source src="wav/vqctap/6.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/BigCodec/6.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/encodec/6_dim_smantic/6.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/facodec/content/6.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/6_dim_smantic/6.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/6_dim_smantic/6.wav" /></audio></td>
                         
                       </tr>
                       <tr>
                         <td class="text-column ps-4">Frederick did love her then—he must love her, or why had he come? Her thoughts wouldn't go on. Her mind stammered. She couldn't think. She could only see and feel. She didn't know how it had happened. It was a miracle.</td>
                         <td><audio controls="" preload="auto"><source src="wav/gt/7.wav" /></audio></td>
                         <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/semantic/7.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/1_dim_smantic/7.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/2_dim_smantic/7.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/content/7.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/prosody/7.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/1_dim_smantic/7.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/2_dim_smantic/7.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/1_dim_smantic/7.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/4_dim_smantic/7.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec_80hz/semantic/7.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/wavtokenizer/7.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/taae/7.wav" /></audio></td>
                         <td><audio controls="" preload="auto"><source src="wav/vqctap/7.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/BigCodec/7.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/encodec/7_dim_smantic/7.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/facodec/content/7.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/7_dim_smantic/7.wav" /></audio></td>
+                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/7_dim_smantic/7.wav" /></audio></td>
                         
                       </tr>
 
@@ -752,415 +735,8 @@
             </div>
         </section>
         <section class="container py-5">
-          <h2 class="section-title text-center mb-4">Speech Reconstruction Task by Acoustic Encoding (Speech2Acoustic2Speech)</h2>
           
-          <div class="audio-table p-4">
-              <table class="w-100">
-                  <thead>
-                      <tr>
-                          <th class="text-start ps-4">Text</th>
-                          <th>Ground Truth</th>
-                          <th>SecoustiCodec (Proposed)</th>
-                          <th>Encodec</th>
-                          <th>FACodec</th>
-                          <th>SpeechTokenizer</th>
-                          <th>MimiCodec</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr>
-                        <td class="text-column ps-4">无法对此作出评论，客人有事尽管吩咐！</td>
-                        <td><audio controls="" preload="auto"><source src="wav/gt/8.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/8.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/8.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/8.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/8.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/8.wav" /></audio></td>
-                        
-                      </tr>
-                      <tr>
-                        <td class="text-column ps-4">北约外长磋商波黑局势，他也一跃成为千万富翁。</td>
-                        <td><audio controls="" preload="auto"><source src="wav/gt/9.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/9.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/9.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/9.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/9.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/9.wav" /></audio></td>
-
-                        
-                      </tr>
-                      <tr>
-                        <td class="text-column ps-4">钱要花在刀刃儿上，月光般柔和的羽毛。</td>
-                        <td><audio controls="" preload="auto"><source src="wav/gt/10.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/10.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/10.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/10.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/10.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/10.wav" /></audio></td>
-                   
-                        
-                      </tr>
-                      <tr>
-                        <td class="text-column ps-4">鳄鱼屿恰恰位处翔安琼头。</td>
-                        <td><audio controls="" preload="auto"><source src="wav/gt/11.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/11.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/11.wav" /></audio></td>
-  
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/11.wav" /></audio></td>
-  
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/11.wav" /></audio></td>
-
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/11.wav" /></audio></td>
-             
-                       
-                        
-                      </tr>
-                      <tr>
-                        <td class="text-column ps-4">法瑞尔与新欢艾格尼斯，翁凯兰防乳腺癌宣传照。</td>
-                        <td><audio controls="" preload="auto"><source src="wav/gt/12.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/12.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/12.wav" /></audio></td>
-
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/12.wav" /></audio></td>
-
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/12.wav" /></audio></td>
-
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/12.wav" /></audio></td>
-
-                        
-                        
-                      </tr>
-                      <tr>
-                        <td class="text-column ps-4">鹅蛋找鸭蛋比大小，鸭蛋说：我不和你比，我跟鸡蛋比。</td>
-                        <td><audio controls="" preload="auto"><source src="wav/gt/13.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/13.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/13.wav" /></audio></td>
-              
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/13.wav" /></audio></td>
-            
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/13.wav" /></audio></td>
-  
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/13.wav" /></audio></td>
-         
-                      
-                        
-                      </tr>
-                      <tr>
-                        <td class="text-column ps-4">无法对此作出评论，客人有事尽管吩咐！</td>
-                        <td><audio controls="" preload="auto"><source src="wav/gt/14.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/14.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/14.wav" /></audio></td>
-       
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/14.wav" /></audio></td>
-        
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/14.wav" /></audio></td>
-           
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/14.wav" /></audio></td>
-             
-                     
-                        
-                      </tr>
-                      <tr>
-                        <td class="text-column ps-4">以为中餐就是酸甜肉左宗棠鸡烤鸭馄饨炒面饺子之类的。</td>
-                        <td><audio controls="" preload="auto"><source src="wav/gt/15.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/15.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/15.wav" /></audio></td>
-            
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/15.wav" /></audio></td>
-          
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/15.wav" /></audio></td>
-                   
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/15.wav" /></audio></td>
-             
-                        
-                        
-                      </tr>
-                      <tr>
-                        <td class="text-column ps-4">大雨旁沱，电闪雷呜，令人耳聩目弦。</td>
-                        <td><audio controls="" preload="auto"><source src="wav/gt/16.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/16.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/16.wav" /></audio></td>
-                
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/16.wav" /></audio></td>
-                
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/16.wav" /></audio></td>
-            
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/16.wav" /></audio></td>
-             
-                        
-                        
-                      </tr>
-                      <tr>
-                        <td class="text-column ps-4">有蘑菇炒青菜、油豆腐烧肉、回锅肉、丝瓜文葛汤、酸菜鱼。</td>
-                        <td><audio controls="" preload="auto"><source src="wav/gt/17.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/17.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/17.wav" /></audio></td>
-                    
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/17.wav" /></audio></td>
-                  
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/17.wav" /></audio></td>
-                 
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/17.wav" /></audio></td>
-                 
-                        
-                      </tr>
-                      <tr>
-                        <td class="text-column ps-4">以为中餐就是甜酸肉左宗棠鸡烤鸭馄炖炒面饺子之类的。</td>
-                        <td><audio controls="" preload="auto"><source src="wav/gt/18.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/18.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/18.wav" /></audio></td>
-
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/18.wav" /></audio></td>
-                  
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/18.wav" /></audio></td>
-       
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/18.wav" /></audio></td>
-    
-                        
-                      </tr>
-                      <tr>
-                        <td class="text-column ps-4">这是老师第一次表扬我，我非常地开心。</td>
-                        <td><audio controls="" preload="auto"><source src="wav/gt/19.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/19.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/19.wav" /></audio></td>
-                 
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/19.wav" /></audio></td>
-               
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/19.wav" /></audio></td>
-              
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/19.wav" /></audio></td>
-                
-
-                      </tr>
-                      <tr>
-                        <td class="text-column ps-4">烧花鸭，烧雏鸡儿，这城市交通有问题。</td>
-                        <td><audio controls="" preload="auto"><source src="wav/gt/20.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/20.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/20.wav" /></audio></td>
-                      
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/20.wav" /></audio></td>
-                
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/20.wav" /></audio></td>
-                       
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/20.wav" /></audio></td>
-  
-                      </tr>
-                      <tr>
-                        <td class="text-column ps-4">唉你怎么越长越窝囊。</td>
-                        <td><audio controls="" preload="auto"><source src="wav/gt/21.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/21.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/21.wav" /></audio></td>
-                      
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/21.wav" /></audio></td>
-                       
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/21.wav" /></audio></td>
-                   
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/21.wav" /></audio></td>
-          
-                      </tr>
-                      <tr>
-                        <td class="text-column ps-4">几天用一张，用完就扔，高压铁塔下的低矮棚屋。</td>
-                        <td><audio controls="" preload="auto"><source src="wav/gt/22.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/22.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/22.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/22.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/22.wav" /></audio></td>
-
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/22.wav" /></audio></td>
-                      </tr>
-                      <tr>
-                        <td class="text-column ps-4">法院准许合同解除，欢声笑语洒满村庄。</td>
-                        <td><audio controls="" preload="auto"><source src="wav/gt/23.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/23.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/23.wav" /></audio></td>
-          
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/23.wav" /></audio></td>
-         
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/23.wav" /></audio></td>
-     
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/23.wav" /></audio></td>
-
-                      </tr>
-                      <tr>
-                        <td class="text-column ps-4">几天用一张，用完就扔，高压铁塔下的低矮棚屋。</td>
-                        <td><audio controls="" preload="auto"><source src="wav/gt/24.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/24.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/24.wav" /></audio></td>
-             
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/24.wav" /></audio></td>
-            
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/24.wav" /></audio></td>
-         
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/24.wav" /></audio></td>
- 
-                      </tr>
-                      <tr>
-                        <td class="text-column ps-4">熊熊火焰从教堂两座钟楼间窜出，塔尖随后轰然倒塌。</td>
-                        <td><audio controls="" preload="auto"><source src="wav/gt/25.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/25.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/25.wav" /></audio></td>
-          
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/25.wav" /></audio></td>
-            
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/25.wav" /></audio></td>
-                 
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/25.wav" /></audio></td>
- 
-                      </tr>
-                      <tr>
-                        <td class="text-column ps-4">为了试验那个号称离子等距喷雾柔顺衣料和高频紫外线杀菌的功能。</td>
-                        <td><audio controls="" preload="auto"><source src="wav/gt/26.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/26.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/26.wav" /></audio></td>
-  
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/26.wav" /></audio></td>
-              
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/26.wav" /></audio></td>
-                 
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/26.wav" /></audio></td>
-            
-                      </tr>
-                      <tr>
-                        <td class="text-column ps-4">卡迪姿，美丽爱上你！</td>
-                        <td><audio controls="" preload="auto"><source src="wav/gt/27.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/27.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/27.wav" /></audio></td>
-                
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/27.wav" /></audio></td>
- 
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/27.wav" /></audio></td>
       
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/27.wav" /></audio></td>
-
-                      </tr>
-                      <tr>
-                        <td class="text-column ps-4">追悔莫及，悔之晚矣。</td>
-                        <td><audio controls="" preload="auto"><source src="wav/gt/28.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/28.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/28.wav" /></audio></td>
-        
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/28.wav" /></audio></td>
-         
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/28.wav" /></audio></td>
-   
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/28.wav" /></audio></td>
- 
-                      </tr>
-                      <tr>
-                          <td class="text-column ps-4">And yet a third time he sighs, said smee. Then at last he spoke passionately. the game's up, he cried, those boys have found a mother. Affrighted though she was, wendy swelled with pride. o evil day! cried starkey.，what's a mother? asked the ignorant smee.</td>
-                          <td><audio controls="" preload="auto"><source src="wav/gt/1.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/1.wav" /></audio></td>
-                          <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/1.wav" /></audio></td>
-            
-                          <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/1.wav" /></audio></td>
-   
-                          <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/1.wav" /></audio></td>
-    
-                          <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/1.wav" /></audio></td>
-    
-                          
-                      </tr>
-                      <tr>
-                        <td class="text-column ps-4">And yet a third time he sighs, said smee. Then at last he spoke passionately. the game's up, he cried, those boys have found a mother. Affrighted though she was, wendy swelled with pride. o evil day! cried starkey.，what's a mother? asked the ignorant smee.</td>
-                        <td><audio controls="" preload="auto"><source src="wav/gt/1.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/1.wav" /></audio></td>
-                        <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/1.wav" /></audio></td>
-       
-                        <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/1.wav" /></audio></td>
-
-                        <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/1.wav" /></audio></td>
-          
-                        <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/1.wav" /></audio></td>
-        
-                        
-                    </tr>
-                    <tr>
-                      <td class="text-column ps-4">An ear as big as a man! I looked still more attentively—and actually there did move under the ear something that was pitiably small and poor and slim.</td>
-                      <td><audio controls="" preload="auto"><source src="wav/gt/2.wav" /></audio></td>
-                      <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/2.wav" /></audio></td>
-                      <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/2.wav" /></audio></td>
-       
-                      <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/2.wav" /></audio></td>
-
-                      <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/2.wav" /></audio></td>
-        
-                      <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/2.wav" /></audio></td>
-       
-                      
-                    </tr>
-                    <tr>
-                      <td class="text-column ps-4">We entered together; Catherine was there, making herself useful in preparing some vegetables for the approaching meal. She looked more sulky and less spirited than when I had seen her first. She hardly raised her eyes to notice me, and continued her employment with the same disregard to common forms of politeness as before; never returning my bow and good morning by the slightest acknowledgment. "She does not seem so amiable," I thought, "as Mrs. Dean would persuade me to believe."</td>
-                      <td><audio controls="" preload="auto"><source src="wav/gt/3.wav" /></audio></td>
-                      <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/3.wav" /></audio></td>
-                      <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/3.wav" /></audio></td>
-      
-                      <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/3.wav" /></audio></td>
- 
-                      <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/3.wav" /></audio></td>
-
-                      <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/3.wav" /></audio></td>
-      
-                      
-                    </tr>
-                    <tr>
-                      <td class="text-column ps-4">But Sir Hugh was altogether of a different opinion. Though he had already asked his sister-in-law to Clavering, when the idea had first come up, he was glad that she had declined the visit. Her coming might be very well if she accepted Archie; but he did not want to be troubled with any renewal of his responsibility respecting her if, as was more probable, she should reject him. The world still looked askance at Lady Ongar, and Hugh did not wish to take up the armor of a paladin in her favor.</td>
-                      <td><audio controls="" preload="auto"><source src="wav/gt/4.wav" /></audio></td>
-                      <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/4.wav" /></audio></td>
-                      <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/4.wav" /></audio></td>
-          
-                      <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/4.wav" /></audio></td>
-           
-                      <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/4.wav" /></audio></td>
-
-                      <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/4.wav" /></audio></td>
-
-                      
-                    </tr>
-                    <tr>
-                      <td class="text-column ps-4">He was thankful, at any rate, that Louis in this two years interval had finally transferred his heart elsewhere. I told you.</td>
-                      <td><audio controls="" preload="auto"><source src="wav/gt/5.wav" /></audio></td>
-                      <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/5.wav" /></audio></td>
-                      <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/5.wav" /></audio></td>
- 
-                      <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/5.wav" /></audio></td>
-  
-                      <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/5.wav" /></audio></td>
-
-                      <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/5.wav" /></audio></td>
-
-                      
-                    </tr>
-                    <tr>
-                      <td class="text-column ps-4">For since natural affection rests upon natural unity, the angel naturally loves less what is less one with him. Consequently, he loves more what is numerically one with himself than what is one only generically or specifically. But it is natural for him to have a like love for another as for himself, in this respect, that as he loves self in wishing well to self, so he loves another in wishing well to him.</td>
-                      <td><audio controls="" preload="auto"><source src="wav/gt/6.wav" /></audio></td>
-                      <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/6.wav" /></audio></td>
-                      <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/6.wav" /></audio></td>
-        
-                      <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/6.wav" /></audio></td>
-   
-                      <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/6.wav" /></audio></td>
-     
-                      <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/6.wav" /></audio></td>
-   
-                      
-                    </tr>
-                    <tr>
-                      <td class="text-column ps-4">Frederick did love her then—he must love her, or why had he come? Her thoughts wouldn't go on. Her mind stammered. She couldn't think. She could only see and feel. She didn't know how it had happened. It was a miracle.</td>
-                      <td><audio controls="" preload="auto"><source src="wav/gt/7.wav" /></audio></td>
-                      <td><audio controls="" preload="auto"><source src="wav/SecoustiCodec/acoustic/7.wav" /></audio></td>
-                      <td><audio controls="" preload="auto"><source src="wav/encodec/8_dim_smantic/7.wav" /></audio></td>
-
-                      <td><audio controls="" preload="auto"><source src="wav/facodec/acoustic/7.wav" /></audio></td>
-            
-                      <td><audio controls="" preload="auto"><source src="wav/speechtokenizer/8_dim_smantic/7.wav" /></audio></td>
-        
-                      <td><audio controls="" preload="auto"><source src="wav/mimicodec/32_dim_smantic/7.wav" /></audio></td>
-                      
-                    </tr>
-
-                  </tbody>
-              </table>
-          </div>
 
           <h2 class="section-title text-center mb-4">VC Demos</h2>
           
