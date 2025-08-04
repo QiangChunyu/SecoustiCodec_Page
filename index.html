@@ -8,6 +8,8 @@
   <title>SecoustiCodec: Cross-Modal Aligned Streaming Single-Codecbook Speech Codec</title>
   <!-- Include Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
     /* General Styles */
     body {
@@ -198,12 +200,156 @@
         font-size: 0.85rem;
       }
     }
+  
+    .info-card {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .info-section h3 {
+      color: #2c3e50;
+      border-bottom: 2px solid #e74c3c;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .author-list li {
+      margin-bottom: 0.8rem;
+      position: relative;
+      padding-left: 20px;
+    }
+    .author-list li:before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #e74c3c;
+    }
+    .resource-links a {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding: 10px;
+      background: white;
+      border-radius: 8px;
+      transition: transform 0.3s;
+    }
+    .resource-links a:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .resource-icon {
+      width: 36px;
+      height: 36px;
+      margin-right: 12px;
+      background: #f1f3f5;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .affiliation-logo {
+      max-height: 22px;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+    @media (max-width: 768px) {
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .resource-container {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+    
+    .resource-card {
+      flex: 1;
+      min-width: 250px;
+      max-width: 300px;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .resource-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+    
+    .resource-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #2c3e50;
+    }
+    
+    .arxiv .resource-icon { color: #b31b1b; } /* arXiv红色 */
+    .github .resource-icon { color: #333; }   /* GitHub黑色 */
+    .huggingface .resource-icon { color: #ffd21f; } /* Hugging Face黄色 */
+    
+    .resource-title {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      margin-bottom: 0.8rem;
+      color: #2c3e50;
+    }
+    
+    .resource-link {
+      display: inline-block;
+      background: #2c3e50;
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.3s ease;
+      margin-top: 0.5rem;
+    }
+    
+    .resource-link:hover {
+      background: #e74c3c;
+      text-decoration: none;
+    }
+    
+    /* 响应式调整 */
+    @media (max-width: 768px) {
+      .resource-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .resource-card {
+        min-width: 80%;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
     <h1>SecoustiCodec: Cross-Modal Aligned Streaming Single-Codecbook Speech Codec</h1>
   </header>
+  <div class="authors">
+    <p><center>Chunyu Qiang, Haoyu Wang, Cheng Gong, Tianrui Wang, Ruibo Fu, Tao Wang, Ruilong Chen, Jiangyan Yi, Zhengqi Wen, Chen Zhang, Longbiao Wang, Jianwu Dang, Jianhua Tao</center></p>
+  </div>
+  <div class="affiliations">
+      <center>Tianjin University, Tianjin, China</center>
+      <center>Kuaishou Technology, Beijing, China</center>
+      <center>Institute of Automation, Chinese Academy of Sciences, Beijing, China</center>
+      <center>Tsinghua University, Beijing, China</center>
+      <center>Shenzhen Institute of Advanced Technology, Chinese Academy of Science, Guangdong, China</center>
+  </div>
 
   <main>
     <div class="container">
@@ -211,9 +357,46 @@
       <section class="section">
         <h2>Abstract</h2>
         <p>
-          Speech codecs serve as a crucial bridge in unifying speech and text language models. Existing codec methods face several challenges in semantic encoding, such as residual paralinguistic information (e.g., timbre, emotion), insufficient semantic completeness, limited reconstruction capability, and lack of support for streaming. To address these challenges, we propose SecoustiCodec, a cross-modal aligned low-bitrate streaming speech codec that disentangles semantic and paralinguistic information in a single-codebook space. Our key innovations include: (1) To ensure semantic completeness and reconstruction fidelity, paralinguistic encoding is introduced to bridge the information gap between semantic and acoustic encoding. (2) A semantic-only efficient quantization method based on VAE (Variational Autoencoder) and FSQ (Finite Scalar Quantization) is proposed. This approach alleviates the long-tail distribution problem of tokens while maintaining high codebook utilization. (3) A semantic disentanglement method based on contrastive learning is proposed, which aligns text and speech in a joint multimodal frame-level space, effectively removing paralinguistic information from semantic encoding. (4) An acoustic-constrained multi-stage optimization strategy is proposed to ensure robust and stable convergence. Figure1 shows SecoustiCodec achieves SOTA (state-of-the-art) reconstruction quality (PESQ) of 1.77/2.58 at 0.27/1 kbps. The code and model weights for SecoustiCodec will be open-sourced upon the completion of the peer-review process.</p>
+          Speech codecs serve as a crucial bridge in unifying speech and text language models. Existing codec methods face several challenges in semantic encoding, such as residual paralinguistic information (e.g., timbre, emotion), insufficient semantic completeness, limited reconstruction capability, and lack of support for streaming. To address these challenges, we propose SecoustiCodec, a cross-modal aligned low-bitrate streaming speech codec that disentangles semantic and paralinguistic information in a single-codebook space. To ensure semantic completeness and reconstruction fidelity, paralinguistic encoding is introduced to bridge the information gap between semantic and acoustic encoding. A semantic-only efficient quantization method based on VAE (Variational Autoencoder) and FSQ (Finite Scalar Quantization) is proposed. This approach alleviates the long-tail distribution problem of tokens while maintaining high codebook utilization. A semantic disentanglement method based on contrastive learning is proposed, which aligns text and speech in a joint multimodal frame-level space, effectively removing paralinguistic information from semantic encoding. An acoustic-constrained multi-stage optimization strategy is proposed to ensure robust and stable convergence. Figure 1 shows SecoustiCodec achieves SOTA (state-of-the-art) reconstruction quality (PESQ) of 1.77/2.58 at 0.27/1 kbps. We've open-sourced SecoustiCodec's demo, code, and model weights.</p>
       </section>
 
+      <body>
+        <!-- Resource links section below author information -->
+        <div class="resource-container">
+          <!-- arXiv card -->
+          <div class="resource-card arxiv">
+            <div class="resource-icon">
+              <i class="fas fa-file-alt"></i>
+            </div>
+            <h3 class="resource-title">arXiv Paper</h3>
+            <a href="https://arxiv.org/abs/2408.05758" class="resource-link" target="_blank">
+              View Paper
+            </a>
+          </div>
+          
+          <!-- GitHub card -->
+          <div class="resource-card github">
+            <div class="resource-icon">
+              <i class="fab fa-github"></i>
+            </div>
+            <h3 class="resource-title">GitHub Repository</h3>
+            <a href="https://github.com/QiangChunyu/SecoustiCodec" class="resource-link" target="_blank">
+              Access Repository
+            </a>
+          </div>
+          
+          <!-- Hugging Face card -->
+          <div class="resource-card huggingface">
+            <div class="resource-icon">
+              <i class="fas fa-robot"></i>
+            </div>
+            <h3 class="resource-title">Hugging Face</h3>
+            <a href="https://huggingface.co/qiangchunyu/SecoustiCodec" class="resource-link" target="_blank">
+              Visit Space
+            </a>
+          </div>
+        </div>
+      </body>
       <!-- Experiment Section -->
       <section class="section">
         <h2>Experiment</h2>
